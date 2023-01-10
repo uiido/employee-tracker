@@ -13,31 +13,41 @@ const chooseOption = (type) => {
         case 'VIEW ALL EMPLOYEES': {
             db.query('SELECT * FROM employee', (err, employees) => {
                 console.table(employees);
+                init();
             });
+            break;
         }
         case 'VIEW ALL DEPARTMENTS': {
             db.query('SELECT * FROM department', (err, departments) => {
                 console.table(departments);
+                init();
             });
+            break;
         }
         case 'VIEW ALL ROLES': {
             db.query('SELECT * FROM role', (err, roles) => {
                 console.table(roles);
+                init();
             });
+            break;
         }
     }
 };
 
-prompt({
-    type: 'rawlist',
-    message: 'Choose one of the following:',
-    choices: [
-        'VIEW ALL EMPLOYEES',
-        'VIEW ALL DEPARTMENTS',
-        'VIEW ALL ROLES',
-    ],
-    name: 'type',
-})
-    .then((answers) => {
-        chooseOption(answers.type);
-    });
+const init = () => {
+    prompt({
+        type: 'rawlist',
+        message: 'Choose one of the following:',
+        choices: [
+            'VIEW ALL EMPLOYEES',
+            'VIEW ALL DEPARTMENTS',
+            'VIEW ALL ROLES',
+        ],
+        name: 'type',
+    })
+        .then((answers) => {
+            chooseOption(answers.type);
+        });
+};
+
+init();
