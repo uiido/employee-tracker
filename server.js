@@ -11,22 +11,22 @@ const db = mysql.createConnection({
 const chooseOption = (type) => {
     switch (type) {
         case 'VIEW ALL EMPLOYEES': {
-            db.query('SELECT * FROM employee', (err, employees) => {
-                console.table(employees);
+            db.query('SELECT * FROM employee', (err, employee) => {
+                console.table(employee);
                 init();
             });
             break;
         }
         case 'VIEW ALL DEPARTMENTS': {
-            db.query('SELECT * FROM department', (err, departments) => {
-                console.table(departments);
+            db.query('SELECT * FROM department', (err, department) => {
+                console.table(department);
                 init();
             });
             break;
         }
         case 'VIEW ALL ROLES': {
-            db.query('SELECT * FROM role', (err, roles) => {
-                console.table(roles);
+            db.query('SELECT * FROM role', (err, role) => {
+                console.table(role);
                 init();
             });
             break;
