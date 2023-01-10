@@ -29,5 +29,15 @@ const chooseOption = (type) => {
 };
 
 prompt({
-
-});
+    type: 'rawlist',
+    message: 'Choose one of the following:',
+    choices: [
+        'VIEW ALL EMPLOYEES',
+        'VIEW ALL DEPARTMENTS',
+        'VIEW ALL ROLES',
+    ],
+    name: 'type',
+})
+    .then((answers) => {
+        chooseOption(answers.type);
+    });
