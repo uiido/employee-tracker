@@ -35,7 +35,7 @@ const selectAllNameAndValue = (table, name, value) => {
 };
 
 // Returns all employees' information
-const selectAllEmployeeDetails = async () => {
+const employeeInfo = async () => {
     const statement = `
 SELECT
   employee.id,
@@ -96,25 +96,14 @@ const addNewEmployee = async () => {
 const chooseOption = (type) => {
     switch (type) {
         case 'VIEW ALL EMPLOYEES': {
-            db.query('SELECT * FROM employee', (err, employee) => {
-                console.table(employee);
-                init();
-            });
+            employeeInfo();
             break;
         }
         case 'VIEW ALL DEPARTMENTS': {
-            db.query('SELECT * FROM department', (err, department) => {
-                console.table(department);
-                init();
-            });
-            break;
+            selectAll('department', true);
         }
         case 'VIEW ALL ROLES': {
-            db.query('SELECT * FROM role', (err, role) => {
-                console.table(role);
-                init();
-            });
-            break;
+            selectAll('role', true);
         }
         case 'ADD AN EMPLOYEE': {
             addNewEmployee();
