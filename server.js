@@ -1,18 +1,25 @@
+// What to install and use
 const inquirer = require('inquirer');
 const prompt = inquirer.createPromptModule();
 const mysql = require('mysql2');
 const connection = require('mysql2/typings/mysql/lib/Connection');
 require('console.table');
 
+// Database connection
 const db = mysql.createConnection({
     user: "root",
     database: "employee_db",
 });
 
+// Returns all employees' values
 const selectAllNameAndValue = (table, name, value) => {
     return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
 };
 
+// Returns all employees' information
+
+
+// Function that creates new employees 
 const addNewEmployee = async () => {
     const [roles] = await selectAllNameAndValue('role', 'title', 'id');
     const [managers] = await selectAllNameAndValue('employee', 'last_name', 'id');
@@ -43,6 +50,10 @@ const addNewEmployee = async () => {
         });
 };
 
+// Function that removes employees
+
+
+// Function that fufills prompt selections
 const chooseOption = (type) => {
     switch (type) {
         case 'VIEW ALL EMPLOYEES': {
@@ -66,13 +77,21 @@ const chooseOption = (type) => {
             });
             break;
         }
-        case 'Add New Employee': {
+        case 'ADD AN EMPLOYEE': {
             addNewEmployee();
             break;
+        }
+        case 'REMOVE AN EMPLOYEE': {
+            //
+            break;
+        }
+        case 'EXIT': {
+            connection.end();
         }
     }
 };
 
+// Initialization & prompts
 const init = () => {
     prompt({
         type: 'rawlist',
@@ -92,6 +111,7 @@ const init = () => {
         });
 };
 
+// Runs init function
 init();
 
 
@@ -121,9 +141,9 @@ const insert = (table, data) => {
     });
 };
 
-const selectAllNameAndValue = (table, name, value) => {
-    return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
-};
+// const selectAllNameAndValue = (table, name, value) => {
+//     return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
+// };
 
 const selectAllEmployeeDetails = async () => {
     const statement = `
@@ -148,56 +168,33 @@ ON employee.manager_id = manager.id
     console.table(employees);
 };
 
-const addEmployee = async () => {
-    const [roles] = await selectAllNameAndValue('role', 'title', 'id');
-    const [managers] = await selectAllNameAndValue('employee', 'last_name', 'id');
-    prompt([
-        {
-            name: 'first_name',
-            message: 'Enter the employee\'s first name.',
-        },
-        {
-            name: 'last_name',
-            message: 'Enter the employee\'s last name.',
-        },
-        {
-            type: 'rawlist',
-            name: 'role_id',
-            message: 'Choose a role for this employee.',
-            choices: roles,
-        },
-        {
-            type: 'rawlist',
-            name: 'manager_id',
-            message: 'Choose a manager for this employee.',
-            choices: managers,
-        }
-    ])
-        .then((answers) => {
-            insert('employee', answers);
-        });
-};
-
-const chooseOption = (type) => {
-    switch (type) {
-        case 'View All Employees': {
-            selectAllEmployeeDetails();
-            break;
-        }
-        case 'View All Departments': {
-            selectAll('department', true);
-            break;
-        }
-        case 'View All Roles': {
-            selectAll('role', true);
-            break;
-        }
-        case 'Add Employee': {
-            addEmployee();
-            break;
-        }
-//         case 'Exit': {
-//             connection.end();
+// const addEmployee = async () => {
+//     const [roles] = await selectAllNameAndValue('role', 'title', 'id');
+//     const [managers] = await selectAllNameAndValue('employee', 'last_name', 'id');
+//     prompt([
+//         {
+//             name: 'first_name',
+//             message: 'Enter the employee\'s first name.',
+//         },
+//         {
+//             name: 'last_name',
+//             message: 'Enter the employee\'s last name.',
+//         },
+//         {
+//             type: 'rawlist',
+//             name: 'role_id',
+//             message: 'Choose a role for this employee.',
+//             choices: roles,
+//         },
+//         {
+//             type: 'rawlist',
+//             name: 'manager_id',
+//             message: 'Choose a manager for this employee.',
+//             choices: managers,
 //         }
-//     }
+//     ])
+//         .then((answers) => {
+//             insert('employee', answers);
+//         });
 // };
+
