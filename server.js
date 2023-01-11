@@ -20,11 +20,11 @@ const selectAll = async (table, display) => {
     return results;
 };
 
-// Inserts data for new employee
+// Inserts data for new field
 const insert = (table, data) => {
     db.query('INSERT INTO ?? SET ?', [table, data], (err) => {
         if (err) return console.error(err);
-        console.log('Your new employee has been added!');
+        console.log('Successfully added!');
         init();
     });
 };
@@ -160,3 +160,13 @@ const init = () => {
 
 // Runs init function
 init();
+
+
+
+
+
+
+
+
+
+
