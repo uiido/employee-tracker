@@ -28,7 +28,7 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
     ('Tyrus', 'Wong', 1, 1),
     ('Toby', 'Bluth', 4, 1),
     ('Joe', 'Hisaishi', 5, null),
-    ('Jimmy MacDonald', 6, 5),
+    ('Jimmy', 'MacDonald', 6, 5),
     ('Idina', 'Menzel', 7, 5),
     ('Brad', 'Bird', 8, null),
     ('Wes', 'Anderson', 9, 8),
