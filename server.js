@@ -94,7 +94,17 @@ const addNewEmployee = async () => {
 
 
 // Function that creates new department
-
+const addDepartment = async () => {
+    prompt([
+        {
+            name: 'name',
+            type: 'input',
+            message: 'What\'s the name of department you would like to add?'
+        }
+    ]).then((answers) => {
+        insert('department', answers);
+    });
+};
 
 // Function that creates new role
 
@@ -123,7 +133,7 @@ const chooseOption = (type) => {
             break;
         }
         case 'ADD A DEPARTMENT': {
-            //
+            addDepartment();
             break;
         }
         case 'ADD A ROLE': {
