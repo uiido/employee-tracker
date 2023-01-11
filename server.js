@@ -94,7 +94,7 @@ const addNewEmployee = async () => {
 
 
 // Function that creates new department
-const addDepartment = async () => {
+const addNewDepartment = async () => {
     prompt([
         {
             name: 'name',
@@ -107,7 +107,29 @@ const addDepartment = async () => {
 };
 
 // Function that creates new role
-
+const addNewRole = async () => {
+    const [departments] = await selectAllNameAndValue('department', 'name', 'id');
+    prompt([
+        {
+            name: 'new_role',
+            message: 'What is the name of the new role?',
+            type: 'input',
+        },
+        {
+            name: 'salary',
+            message: 'What is the salary for this role?',
+            type: 'input',
+        },
+        {
+            type: 'rawlist',
+            name: 'department_id',
+            message: 'What department is this role in?',
+            choices: departments,
+        }
+    ]).then((answers) => {
+        insert('role', answers);
+    });
+};
 
 // Function that fufills prompt selections
 const chooseOption = (type) => {
@@ -133,11 +155,11 @@ const chooseOption = (type) => {
             break;
         }
         case 'ADD A DEPARTMENT': {
-            addDepartment();
+            addNewDepartment();
             break;
         }
         case 'ADD A ROLE': {
-            //
+            addNewRole();
             break;
         }
         case 'EXIT': {
@@ -170,13 +192,3 @@ const init = () => {
 
 // Runs init function
 init();
-
-
-
-
-
-
-
-
-
-
