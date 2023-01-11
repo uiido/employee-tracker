@@ -42,6 +42,11 @@ const init = () => {
             'VIEW ALL EMPLOYEES',
             'VIEW ALL DEPARTMENTS',
             'VIEW ALL ROLES',
+            'ADD AN EMPLOYEE',
+            'ADD A DEPARTMENT',
+            'ADD A ROLE',
+            'REMOVE EMPLOYEE',
+            'EXIT'
         ],
         name: 'type',
     })
@@ -55,21 +60,6 @@ init();
 
 
 
-
-
-
-
-
-
-// const inquirer = require('inquirer');
-// const prompt = inquirer.createPromptModule();
-// const mysql = require('mysql2');
-// require('console.table');
-
-// const db = mysql.createConnection({
-//   user: "root",
-//   database: "employee_db",
-// });
 
 // const selectAll = async (table, display) => {
 //   const results = await db.promise().query('SELECT * FROM ' + table);
