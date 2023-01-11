@@ -91,7 +91,7 @@ const addNewEmployee = async () => {
 };
 
 // Function that removes employees
-
+init();
 
 // Function that fufills prompt selections
 const chooseOption = (type) => {
