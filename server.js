@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const prompt = inquirer.createPromptModule();
 const mysql = require('mysql2');
-const Connection = require('mysql2/typings/mysql/lib/Connection');
+const connection = require('mysql2/typings/mysql/lib/Connection');
 require('console.table');
 
 const db = mysql.createConnection({
@@ -11,6 +11,36 @@ const db = mysql.createConnection({
 
 const selectAllNameAndValue = (table, name, value) => {
     return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
+};
+
+const addNewEmployee = async () => {
+    const [roles] = await selectAllNameAndValue('role', 'title', 'id');
+    const [managers] = await selectAllNameAndValue('employee', 'last_name', 'id');
+    prompt([
+        {
+            name: 'first_name',
+            message: 'Enter the employee\'s first name.',
+        },
+        {
+            name: 'last_name',
+            message: 'Enter the employee\'s last name.',
+        },
+        {
+            type: 'rawlist',
+            name: 'role_id',
+            message: 'Choose a role for this employee.',
+            choices: roles,
+        },
+        {
+            type: 'rawlist',
+            name: 'manager_id',
+            message: 'Choose a manager for this employee.',
+            choices: managers,
+        }
+    ])
+        .then((answers) => {
+            insert('employee', answers);
+        });
 };
 
 const chooseOption = (type) => {
@@ -34,6 +64,10 @@ const chooseOption = (type) => {
                 console.table(role);
                 init();
             });
+            break;
+        }
+        case 'Add New Employee': {
+            addNewEmployee();
             break;
         }
     }
