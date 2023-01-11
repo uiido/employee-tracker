@@ -90,9 +90,6 @@ const addNewEmployee = async () => {
         });
 };
 
-// Function that removes employees
-init();
-
 // Function that fufills prompt selections
 const chooseOption = (type) => {
     switch (type) {
@@ -132,7 +129,6 @@ const init = () => {
             'VIEW ALL DEPARTMENTS',
             'VIEW ALL ROLES',
             'ADD AN EMPLOYEE',
-            'REMOVE AN EMPLOYEE',
             'EXIT'
         ],
         name: 'type',
