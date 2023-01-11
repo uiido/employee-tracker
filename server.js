@@ -24,7 +24,7 @@ const selectAll = async (table, display) => {
 const insert = (table, data) => {
     db.query('INSERT INTO ?? SET ?', [table, data], (err) => {
         if (err) return console.error(err);
-        console.log('\nYour new employee has been added!\n');
+        console.log('Your new employee has been added!');
         init();
     });
 };
@@ -90,6 +90,15 @@ const addNewEmployee = async () => {
         });
 };
 
+// Function that edits employees
+
+
+// Function that creates new department
+
+
+// Function that creates new role
+
+
 // Function that fufills prompt selections
 const chooseOption = (type) => {
     switch (type) {
@@ -109,7 +118,15 @@ const chooseOption = (type) => {
             addNewEmployee();
             break;
         }
-        case 'REMOVE AN EMPLOYEE': {
+        case 'UPDATE AN EMPLOYEE': {
+            //
+            break;
+        }
+        case 'ADD A DEPARTMENT': {
+            //
+            break;
+        }
+        case 'ADD A ROLE': {
             //
             break;
         }
@@ -129,6 +146,9 @@ const init = () => {
             'VIEW ALL DEPARTMENTS',
             'VIEW ALL ROLES',
             'ADD AN EMPLOYEE',
+            'UPDATE AN EMPLOYEE',
+            'ADD A DEPARTMENT',
+            'ADD A ROLE',
             'EXIT'
         ],
         name: 'type',
