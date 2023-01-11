@@ -5,7 +5,7 @@ const mysql = require('mysql2');
 require('console.table');
 
 // Database connection
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
     user: "root",
     database: "employee_db",
 });
@@ -114,7 +114,7 @@ const chooseOption = (type) => {
             break;
         }
         case 'EXIT': {
-            connection.end();
+            db.end();
         }
     }
 };
