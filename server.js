@@ -2,11 +2,10 @@
 const inquirer = require('inquirer');
 const prompt = inquirer.createPromptModule();
 const mysql = require('mysql2');
-const connection = require('mysql2/typings/mysql/lib/Connection');
 require('console.table');
 
 // Database connection
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
     user: "root",
     database: "employee_db",
 });
