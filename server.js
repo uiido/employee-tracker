@@ -56,6 +56,7 @@ ON employee.manager_id = manager.id
   `
     const [employees] = await db.promise().query(statement);
     console.table(employees);
+    init();
 };
 
 // Function that creates new employees 
@@ -101,9 +102,11 @@ const chooseOption = (type) => {
         }
         case 'VIEW ALL DEPARTMENTS': {
             selectAll('department', true);
+            break;
         }
         case 'VIEW ALL ROLES': {
             selectAll('role', true);
+            break;
         }
         case 'ADD AN EMPLOYEE': {
             addNewEmployee();
