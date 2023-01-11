@@ -9,6 +9,10 @@ const db = mysql.createConnection({
     database: "employee_db",
 });
 
+const selectAllNameAndValue = (table, name, value) => {
+    return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
+};
+
 const chooseOption = (type) => {
     switch (type) {
         case 'VIEW ALL EMPLOYEES': {
@@ -44,9 +48,7 @@ const init = () => {
             'VIEW ALL DEPARTMENTS',
             'VIEW ALL ROLES',
             'ADD AN EMPLOYEE',
-            'ADD A DEPARTMENT',
-            'ADD A ROLE',
-            'REMOVE EMPLOYEE',
+            'REMOVE AN EMPLOYEE',
             'EXIT'
         ],
         name: 'type',
@@ -160,25 +162,8 @@ const chooseOption = (type) => {
             addEmployee();
             break;
         }
-        case 'Exit': {
-            connection.end();
-        }
-    }
-};
-
-const init = () => {
-    prompt({
-        type: 'rawlist',
-        message: 'Choose one of the following:',
-        choices: [
-            'View All Employees',
-            'View All Departments',
-            'View All Roles',
-            'Add Employee',
-        ],
-        name: 'type',
-    })
-        .then((answers) => {
-            chooseOption(answers.type);
-        });
-};
+//         case 'Exit': {
+//             connection.end();
+//         }
+//     }
+// };
