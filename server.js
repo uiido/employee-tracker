@@ -61,8 +61,8 @@ ON employee.manager_id = manager.id
 
 // Function that creates new employees 
 const addNewEmployee = async () => {
-    const [roles] = await selectAllNameAndValue('role', 'job_title', 'id');
-    const [managers] = await selectAllNameAndValue('employee', 'last_name', 'id');
+    let [roles] = await selectAllNameAndValue('role', 'job_title', 'id');
+    let [managers] = await selectAllNameAndValue('employee', 'last_name', 'id');
     prompt([
         {
             name: 'first_name',
@@ -90,10 +90,29 @@ const addNewEmployee = async () => {
         });
 };
 
-
-
 // Function that edits employees
+const updateEmployee = async () => {
+    const [employees] = await selectAllNameAndValue('employee', 'last_name', 'id');
+    let [roles] = await selectAllNameAndValue('role', 'job_title', 'id');
+    prompt([
+        {
+            type: "rawlist",
+            message: "Which employee would you like to update?",
+            name: "employeeSelect",
+            choices: employees
+        },
 
+        {
+            type: "rawlist",
+            message: "What do you want to update to?",
+            name: "updateRole",
+            choices: roles
+        }
+    ])
+        .then((answers) => {
+            insert('employee', answers);
+        });
+}
 
 // Function that creates new department
 const addNewDepartment = async () => {
@@ -137,9 +156,18 @@ const addNewRole = async () => {
         }
     });
 
-    .then((answers) => {
-        insert('role', answers);
-    });
+    db.query(
+        'INSERT INTO employee_db.role SET ?',
+        {
+            job_title: responses.job_title,
+            salary: responses.salary,
+            department_id: responses.department_id,
+        },
+        (err) => {
+            if (err) throw err;
+            console.log('New role added successfully!')
+            innit();
+        })
 }
 
 // Function that fufills prompt selections
