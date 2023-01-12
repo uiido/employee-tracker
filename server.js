@@ -111,27 +111,36 @@ const addNewDepartment = async () => {
 // Function that creates new role
 const addNewRole = async () => {
     const [departments] = await selectAllNameAndValue('department', 'name', 'id');
-    prompt([
-        {
-            name: 'new_role',
-            message: 'What is the name of the new role?',
-            type: 'input',
-        },
-        {
-            name: 'salary',
-            message: 'What is the salary for this role?',
-            type: 'input',
-        },
-        {
-            type: 'rawlist',
-            name: 'department_id',
-            message: 'What department is this role in?',
-            choices: departments,
+    const responses = await inquirer
+        .prompt([
+            {
+                name: 'job_title',
+                type: 'input',
+                message: 'What is the new role? ',
+            },
+            {
+                name: 'salary',
+                type: 'number',
+                message: "What is this job title's salary? ",
+            },
+            {
+                name: 'department',
+                type: 'list',
+                choices: departments,
+                message: 'What department is this job title in? '
+            }
+        ])
+
+    departments.forEach(department => {
+        if (department.name === responses.department) {
+            responses.department = department.id;
         }
-    ]).then((answers) => {
+    });
+
+    .then((answers) => {
         insert('role', answers);
     });
-};
+}
 
 // Function that fufills prompt selections
 const chooseOption = (type) => {
@@ -201,5 +210,6 @@ init();
 // Known issues:
 // (Will revisit if I have time)
 // "Managers" don't appear in employee list
-// Add role does not seem to work correctly
+// Add role does not seem to work correctly - runs properly but then gives an error on submit
+
 // Update employee not working properly
