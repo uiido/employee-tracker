@@ -4,7 +4,11 @@ INSERT INTO department (name)
 VALUES ('Art'), ('Sound'), ('Writing'), ('Acting');
 
 INSERT INTO
-    role (title, salary, department_id)
+    role (
+        job_title,
+        salary,
+        department_id
+    )
 VALUES ('Lead Animator', 60000, 1), ('Animator', 40000, 1), ('Concept Artist', 50000, 1), ('Background Painter', 40000, 1), ('Composer', 45000, 2), ('Foley Artist', 40000, 2), ('Singer', 60000, 2), ('Screenwriter', 60000, 3), ('Storyboarder', 60000, 3), ('Actor', 65000, 4), ('Extra Voices', 35000, 4);
 
 INSERT INTO

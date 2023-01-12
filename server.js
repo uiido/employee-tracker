@@ -41,7 +41,7 @@ SELECT
   employee.id,
   employee.first_name,
   employee.last_name,
-  role.title,
+  role.job_title,
   role.salary,
   CONCAT(
     manager.first_name,
@@ -91,7 +91,48 @@ const addNewEmployee = async () => {
 };
 
 // Function that edits employees
-
+const updateEmployee = async () => {
+    db.query('Select * FROM employee', async (err, employees) => {
+        if (err) throw err;
+        const employeeSelected = await inquirer
+            .prompt([
+                {
+                    name: 'employee_id',
+                    type: 'list',
+                    choices: employees.map(employee => ({ name: employee.first_name + " " + employee.last_name, value: employee.id })),
+                    message: 'Whose job title would you like to update? ',
+                }
+            ])
+        db.query('Select * FROM role', async (err, roles) => {
+            if (err) throw err;
+            const roleSelected = await inquirer
+                .prompt([
+                    {
+                        name: 'role_id',
+                        type: 'list',
+                        choices: roles.map(role => ({ name: role.title, value: role.id })),
+                        message: 'What is their new job title?',
+                    }
+                ])
+            db.query(
+                'UPDATE employees_db.employee SET ? WHERE ?',
+                [
+                    {
+                        role_id: roleSelected.role_id,
+                    },
+                    {
+                        id: employeeSelected.employee_id,
+                    }
+                ],
+                (err) => {
+                    if (err) throw err;
+                    console.log('This employee has been successfully updated!')
+                    innit();
+                }
+            )
+        })
+    })
+}
 
 // Function that creates new department
 const addNewDepartment = async () => {
@@ -108,27 +149,22 @@ const addNewDepartment = async () => {
 
 // Function that creates new role
 const addNewRole = async () => {
-    const [departments] = await selectAllNameAndValue('department', 'name', 'id');
+    const [departments] = await selectAllNameAndValue('department', 'title', 'id');
     prompt([
         {
-            name: 'new_role',
-            message: 'What is the name of the new role?',
-            type: 'input',
-        },
-        {
-            name: 'salary',
-            message: 'What is the salary for this role?',
-            type: 'input',
+            name: 'title',
+            message: 'What is the name of this role?',
         },
         {
             type: 'rawlist',
-            name: 'department_id',
-            message: 'What department is this role in?',
+            name: 'department',
+            message: 'Which department is this role in?',
             choices: departments,
         }
-    ]).then((answers) => {
-        insert('role', answers);
-    });
+    ])
+        .then((answers) => {
+            insert('role', answers);
+        });
 };
 
 // Function that fufills prompt selections
@@ -151,7 +187,7 @@ const chooseOption = (type) => {
             break;
         }
         case 'UPDATE AN EMPLOYEE': {
-            //
+            updateEmployee();
             break;
         }
         case 'ADD A DEPARTMENT': {
@@ -192,3 +228,11 @@ const init = () => {
 
 // Runs init function
 init();
+
+
+
+
+// Known issues:
+// (Will revisit if I have time)
+// "Managers" don't appear in ID list
+// Add role does not seem to work correctly
