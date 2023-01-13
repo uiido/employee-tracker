@@ -103,19 +103,28 @@ const updateEmployee = async () => {
         {
             type: "rawlist",
             message: "Which employee would you like to update?",
-            name: "employeeSelect",
+            name: "last_name",
             choices: employees
         },
 
         {
             type: "rawlist",
             message: "What do you want to update to?",
-            name: "updateRole",
+            name: "role_id",
             choices: roles
         }
     ])
         .then((answers) => {
-            insert('employee', answers);
+            db.query('UPDATE employee_db.employee SET ?',
+                {
+                    last_name: answers.last_name,
+                    role_id: answers.role_id,
+                },
+                (err) => {
+                    if (err) throw err;
+                    console.log('Successfully updated!')
+                    init();
+                });
         });
 }
 
@@ -172,7 +181,7 @@ const addNewRole = async () => {
                 init();
             })
     });
-}
+};
 
 // Function that fufills prompt selections
 const chooseOption = (type) => {
