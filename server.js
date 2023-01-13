@@ -96,32 +96,30 @@ const addNewEmployee = async () => {
 
 // Function that edits employees
 const updateEmployee = async () => {
-    const [employees] = await selectAllNameAndValue('employee', 'last_name', 'id');
+    const [employees] = await selectAllNameAndValue('employee', 'last_name', 'last_name');
     let [roles] = await selectAllNameAndValue('role', 'job_title', 'id');
     prompt([
         {
             type: "rawlist",
             message: "Which employee would you like to update?",
-            name: "last_name",
+            name: "employee",
             choices: employees
         },
 
         {
             type: "rawlist",
             message: "What do you want to update to?",
-            name: "role_id",
+            name: "roles",
             choices: roles
         }
+
     ])
-        .then((answers) => {
-            db.query('UPDATE employee_db.employee SET ?',
-                {
-                    last_name: answers.last_name,
-                    role_id: answers.role_id,
-                },
+        .then((answer) => {
+            db.query('UPDATE employee SET role_id=? WHERE last_name= ?',
+                [answer.roles, answer.employee],
                 (err) => {
                     if (err) throw err;
-                    console.log('Successfully updated!')
+                    console.log('Successfully updated!');
                     init();
                 });
         });
