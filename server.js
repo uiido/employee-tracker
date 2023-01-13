@@ -29,11 +29,6 @@ const insert = (table, data) => {
     });
 };
 
-// Inserts data for new role
-const insertRole = (table, data) => {
-
-};
-
 // Returns all employees' values
 const selectAllNameAndValue = (table, name, value) => {
     return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
@@ -43,21 +38,25 @@ const selectAllNameAndValue = (table, name, value) => {
 const employeeInfo = async () => {
     const statement = `
 SELECT
-  employee.id,
-  employee.first_name,
-  employee.last_name,
-  role.job_title,
-  role.salary,
-  CONCAT(
+  employee.id AS Id,
+  employee.first_name AS First_Name,
+  employee.last_name AS Last_Name,
+  department.name AS Department,
+  role.job_title AS Job_Title,
+  role.salary AS Salary,
+  IFNULL(CONCAT(
     manager.first_name,
     ' ',
-    manager.last_name
-  ) AS manager
+    manager.last_name), 
+    'N/A'
+  ) AS Manager
 FROM employee
+LEFT JOIN employee manager
+ON employee.manager_id = manager.id
 JOIN role
 ON employee.role_id = role.id
-JOIN employee AS manager
-ON employee.manager_id = manager.id
+JOIN department
+ON role.department_id = department.id
   `
     const [employees] = await db.promise().query(statement);
     console.table(employees);
@@ -251,7 +250,6 @@ init();
 // Known issues:
 // (Will revisit if I have time)
 // "Managers" don't appear in employee list
-// Add role does not seem to work correctly - prompts properly but then gives an error on submit
-// Update employee not working properly - prompts properly but then gives an error on submit
+// Update employee not working properly - values are improperly displayed in view employees
 
 // README + Video
