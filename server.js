@@ -29,6 +29,11 @@ const insert = (table, data) => {
     });
 };
 
+// Inserts data for new role
+const insertRole = (table, data) => {
+
+};
+
 // Returns all employees' values
 const selectAllNameAndValue = (table, name, value) => {
     return db.promise().query('SELECT ?? AS name, ?? AS value FROM ??', [name, value, table]);
@@ -130,44 +135,43 @@ const addNewDepartment = async () => {
 // Function that creates new role
 const addNewRole = async () => {
     const [departments] = await selectAllNameAndValue('department', 'name', 'id');
-    const responses = await inquirer
-        .prompt([
-            {
-                name: 'job_title',
-                type: 'input',
-                message: 'What is the new role? ',
-            },
-            {
-                name: 'salary',
-                type: 'number',
-                message: "What is this job title's salary? ",
-            },
-            {
-                name: 'department',
-                type: 'list',
-                choices: departments,
-                message: 'What department is this job title in? '
-            }
-        ])
-
-    departments.forEach(department => {
-        if (department.name === responses.department) {
-            responses.department = department.id;
-        }
-    });
-
-    db.query(
-        'INSERT INTO employee_db.role SET ?',
+    prompt([
         {
-            job_title: responses.job_title,
-            salary: responses.salary,
-            department_id: responses.department_id,
+            name: 'job_title',
+            type: 'input',
+            message: 'What is the new role? ',
         },
-        (err) => {
-            if (err) throw err;
-            console.log('New role added successfully!')
-            innit();
-        })
+        {
+            name: 'salary',
+            type: 'number',
+            message: "What is this job title's salary? ",
+        },
+        {
+            name: 'department',
+            type: 'list',
+            choices: departments,
+            message: 'What what is the id of the department this job is in? '
+        }
+    ]).then((answers) => {
+        departments.forEach(department => {
+            if (department.name === answers.department) {
+                answers.department = department.id;
+            }
+        });
+
+        db.query(
+            'INSERT INTO employee_db.role SET ?',
+            {
+                job_title: answers.job_title,
+                salary: answers.salary,
+                department_id: answers.department,
+            },
+            (err) => {
+                if (err) throw err;
+                console.log('Successfully added!')
+                init();
+            })
+    });
 }
 
 // Function that fufills prompt selections
@@ -238,6 +242,7 @@ init();
 // Known issues:
 // (Will revisit if I have time)
 // "Managers" don't appear in employee list
-// Add role does not seem to work correctly - runs properly but then gives an error on submit
+// Add role does not seem to work correctly - prompts properly but then gives an error on submit
+// Update employee not working properly - prompts properly but then gives an error on submit
 
-// Update employee not working properly
+// README + Video
